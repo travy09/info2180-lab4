@@ -62,11 +62,63 @@ $superheroes = [
       "biography" => "Notably powerful, Wanda Maximoff has fought both against and with the Avengers, attempting to hone her abilities and do what she believes is right to help the world.",
   ], 
 ];
+$query = trim($_GET['query'] ?? '');
+
+if ($query === '') {
+    echo '<ul>';
+
+    foreach ($superheroes as $hero) {
+        echo '<li>' .
+            htmlspecialchars(
+                $hero['alias'],
+                ENT_QUOTES,
+                'UTF-8'
+            ) .
+            '</li>';
+    }
+
+    echo '</ul>';
+} else {
+    $found = false;
+
+    foreach ($superheroes as $hero) {
+        if (
+            strcasecmp($hero['alias'], $query) === 0 ||
+            strcasecmp($hero['name'], $query) === 0
+        ) {
+            echo '<h3>' .
+                htmlspecialchars(
+                    $hero['alias'],
+                    ENT_QUOTES,
+                    'UTF-8'
+                ) .
+                '</h3>';
+
+            echo '<h4>' .
+                htmlspecialchars(
+                    $hero['name'],
+                    ENT_QUOTES,
+                    'UTF-8'
+                ) .
+                '</h4>';
+
+            echo '<p>' .
+                htmlspecialchars(
+                    $hero['biography'],
+                    ENT_QUOTES,
+                    'UTF-8'
+                ) .
+                '</p>';
+
+            $found = true;
+            break;
+        }
+    }
+
+    if (!$found) {
+        echo '<p class="error">Superhero not found</p>';
+    }
+}
 
 ?>
 
-<ul>
-<?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
