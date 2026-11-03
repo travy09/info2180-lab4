@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", function (event) {
     event.preventDefault();
 
+    console.log("Search button clicked!");
+
     const query = searchInput.value.trim();
 
     const url = "superheroes.php?query=" + encodeURIComponent(query);
